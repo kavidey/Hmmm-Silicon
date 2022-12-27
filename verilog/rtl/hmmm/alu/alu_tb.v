@@ -1,3 +1,5 @@
+`timescale 1 ns/10 ps
+
 module alu_tb();
     reg signed [15:0] tmp1, tmp2;
     reg [2:0] op;
@@ -19,6 +21,13 @@ module alu_tb();
     initial begin
         $dumpfile("alu_tb.vcd");
         $dumpvars(0, alu_tb);
+
+        // should not output anything because enable is off
+        tmp1 = 16'd40;
+        tmp2 = 16'd2;
+        op = 3'd0;
+        enable = 1'b0;
+        #1;
 
         // -1 + 1 = 0 (should trigger zero)
         tmp1 = -16'd1;
@@ -174,5 +183,6 @@ module alu_tb();
         enable = 1'b1;
         #1;
 
+        $finish;
     end
 endmodule
