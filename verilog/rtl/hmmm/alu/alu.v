@@ -7,26 +7,27 @@ module alu (
     output carry
 );
     reg signed [16:0] result_with_carry;
-    assign zero = (result == 16'b0);
     assign carry = result_with_carry[16];
     assign result = result_with_carry[15:0];
+    // assign zero = (result == 0) ? 1'b1 : 1'b0;
+    assign zero = ~|result;
 
     always @* begin
         case(op) 
             3'b000: begin
                 result_with_carry = tmp1 + tmp2;
-                if ((!tmp1[15]) && (!tmp2[15]) && result_with_carry[15])
+                if ((!tmp1[15]) && (!tmp2[15]) && result_with_carry[15]) // positive + positive = negative
                     result_with_carry[16] = 1'b1;
-                else if (tmp1[15] && tmp2[15] && (!result_with_carry[15]))
+                else if (tmp1[15] && tmp2[15] && (!result_with_carry[15])) // negative + negative = positive
                     result_with_carry[16] = 1'b1;
                 else
                     result_with_carry[16] = 1'b0;
             end
             3'b001: begin
                 result_with_carry = tmp1 - tmp2;
-                if (tmp1 > 0 && tmp2 < 0 && result_with_carry < 0)
+                if ((!tmp1[15]) && tmp2[15] && result_with_carry[15]) // positive - negative = positive
                     result_with_carry[16] = 1'b1;
-                else if (tmp1 < 0 && tmp2 > 0 && result_with_carry > 0)
+                else if (tmp1[15] && (!tmp2[15]) && (!result_with_carry[15])) // negative - positive = negative
                     result_with_carry[16] = 1'b1;
                 else
                     result_with_carry[16] = 1'b0;
