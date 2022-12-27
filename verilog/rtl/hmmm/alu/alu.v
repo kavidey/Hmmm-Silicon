@@ -1,0 +1,43 @@
+module alu (
+    input signed [15:0] tmp1, tmp2,
+    input [2:0] op,
+    input enable,
+    output signed [15:0] result,
+    output zero,
+    output carry
+);
+    reg signed [16:0] result_with_carry;
+    assign zero = (result == 16'b0);
+    assign carry = result_with_carry[16];
+    assign result = result_with_carry[15:0];
+
+    always @* begin
+        case(op) 
+            3'b000: begin
+                result_with_carry = tmp1 + tmp2;
+                if ((!tmp1[15]) && (!tmp2[15]) && result_with_carry[15])
+                    result_with_carry[16] = 1'b1;
+                else if (tmp1[15] && tmp2[15] && (!result_with_carry[15]))
+                    result_with_carry[16] = 1'b1;
+                else
+                    result_with_carry[16] = 1'b0;
+            end
+            3'b001: begin
+                result_with_carry = tmp1 - tmp2;
+                if (tmp1 > 0 && tmp2 < 0 && result_with_carry < 0)
+                    result_with_carry[16] = 1'b1;
+                else if (tmp1 < 0 && tmp2 > 0 && result_with_carry > 0)
+                    result_with_carry[16] = 1'b1;
+                else
+                    result_with_carry[16] = 1'b0;
+            end
+            3'b010: result_with_carry = tmp1 * tmp2;
+            3'b011: begin
+                result_with_carry[15:0] = tmp1 / tmp2;
+                result_with_carry[16] = 1'b0;
+            end
+            3'b100: result_with_carry = {1'b0, tmp1 % tmp2};
+            default: result_with_carry = 17'b0;
+        endcase
+    end
+endmodule
