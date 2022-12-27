@@ -89,5 +89,90 @@ module alu_tb();
         op = 3'd1;
         enable = 1'b1;
         #1;
+
+        // 3 * 2 = 6
+        tmp1 = 16'd3;
+        tmp2 = 16'd2;
+        op = 3'd2;
+        enable = 1'b1;
+        #1;
+
+        // -3 * -2 = 6
+        tmp1 = -16'd3;
+        tmp2 = -16'd2;
+        op = 3'd2;
+        enable = 1'b1;
+        #1;
+
+        // 3 * -2 = -6
+        tmp1 = 16'd3;
+        tmp2 = -16'd2;
+        op = 3'd2;
+        enable = 1'b1;
+        #1;
+
+        // 15 / 3 = 5
+        tmp1 = 16'd15;
+        tmp2 = 16'd3;
+        op = 3'd3;
+        enable = 1'b1;
+        #1;
+
+        // -15 / -3 = 5
+        tmp1 = -16'd15;
+        tmp2 = -16'd3;
+        op = 3'd3;
+        enable = 1'b1;
+        #1;
+
+        // 15 / -3 = -5
+        tmp1 = 16'd15;
+        tmp2 = -16'd3;
+        op = 3'd3;
+        enable = 1'b1;
+        #1;
+
+        // -15 / 3 = -5
+        tmp1 = -16'd15;
+        tmp2 = 16'd3;
+        op = 3'd3;
+        enable = 1'b1;
+        #1;
+
+        // 12 % 5 = 2
+        tmp1 = 16'd12;
+        tmp2 = 16'd5;
+        op = 3'd4;
+        enable = 1'b1;
+        #1;
+
+        // -12 % -5 = -2
+        tmp1 = -16'd12;
+        tmp2 = -16'd5;
+        op = 3'd4;
+        enable = 1'b1;
+        #1;
+
+        // 12 % -5 = 2
+        tmp1 = 16'd12;
+        tmp2 = -16'd5;
+        op = 3'd4;
+        enable = 1'b1;
+        #1;
+
+        // -12 % 5 = -2
+        tmp1 = -16'd12;
+        tmp2 = 16'd5;
+        op = 3'd4;
+        enable = 1'b1;
+        #1;
+
+        // 12 % 3 = 0 (should trigger zero)
+        tmp1 = 16'd12;
+        tmp2 = 16'd3;
+        op = 3'd4;
+        enable = 1'b1;
+        #1;
+
     end
 endmodule
