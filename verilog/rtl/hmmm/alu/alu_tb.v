@@ -5,8 +5,7 @@ module alu_tb();
     reg [2:0] op;
     reg enable;
     wire signed [15:0] result;
-    wire zero;
-    wire carry;
+    wire zero, carry, sign;
 
     alu uut (
         .tmp1(tmp1),
@@ -15,7 +14,8 @@ module alu_tb();
         .enable(enable),
         .result(result),
         .zero(zero),
-        .carry(carry)
+        .carry(carry),
+        .sign(sign)
     );
 
     initial begin

@@ -20,6 +20,8 @@ module control
     output reg [2:0] alu_op,
     output reg tmp1_in,
     output reg tmp1_out,
+    output reg flags_in,
+    input wire [3:0] flags_data, // [carry, zero, sign]
 
     // Register File
     output reg [3:0] reg_sel,
@@ -51,7 +53,7 @@ module control
     always @(negedge clk) begin
         // Control
         control_out_enable <= 1'b0;
-        
+
         // RAM
         mar_in <= 1'b0;
         mdr_in <= 1'b0;
@@ -68,6 +70,7 @@ module control
         alu_out <= 1'b0;
         tmp1_in <= 1'b0;
         tmp1_out <= 1'b0;
+        flags_in <= 1'b0;
 
         // Register File
         reg_in <= 1'b0;
@@ -84,10 +87,11 @@ module control
         // Halt
         halt <= 1'b0;
         
-        if (rst)
+        if (rst) begin
             microcode_instruction <= 3'b0;
-        else
-            if (microcode_instruction < 3'd2)
+        end
+        else begin
+            if (microcode_instruction < 3'd2) begin
                 case(microcode_instruction)
                 3'd0: begin
                     pc_out <= 1'b1; // pc_out
@@ -102,7 +106,8 @@ module control
                 end
                 default: ;
                 endcase
-            else
+            end
+            else begin
                 case(ir_data[15:12])
                 4'b0000: begin // halt, read, write, jump
                     case(ir_data[1:0])
@@ -166,6 +171,297 @@ module control
                     end
                     endcase
                 end
+                4'b0100: begin // loadr, storer, popr, pushr
+                    if (ir_data[1] == 0) begin// loadr, storer
+                        case(microcode_instruction)
+                        3'd2: begin // move address from register into mar
+                            mar_in <= 1'b1;
+                            reg_sel <= ir_data[7:4];
+                            reg_out <= 1'b1;
+                            microcode_instruction <= 3'd3;
+                        end
+                        3'd3: begin 
+                            // if ir_data[0] == 0, load register from memory
+                            // if ir_data[0] == 1, store register to memory
+                            mdr_out <= ~ir_data[0];
+                            mdr_in <= ir_data[0];
+
+                            reg_sel <= ir_data[11:8];
+
+                            reg_in <= ~ir_data[0];
+                            reg_out <= ir_data[0];
+
+                            microcode_instruction <= 3'd0;
+                        end
+                        endcase
+                    end
+                    else begin// pushr, popr
+                        if (ir_data[0] == 0) begin // popr
+                            case(microcode_instruction)
+                            3'd2: begin // load tmp0 with address from register
+                                reg_sel <= ir_data[7:4];
+                                reg_out <= 1'b1;
+                                tmp0_in <= 1'b1;
+                                microcode_instruction <= 3'd3;
+                            end
+                            3'd3: begin // load tmp1 with -1
+                                control_out_reg <= 16'b1111_1111_1111_1111;
+                                control_out_enable <= 1'b1;
+                                tmp1_in <= 1'b1;
+                                microcode_instruction <= 3'd4;
+                            end
+                            3'd4: begin // add tmp0 and tmp1 (this subtracts one from the initial register), then read this new value into mar and the original register
+                                alu_op <= 3'b000;
+                                alu_out <= 1'b1;
+                                reg_sel <= ir_data[7:4];
+                                reg_in <= 1'b1;
+                                mar_in <= 1'b1;
+                                microcode_instruction <= 3'd5;
+                            end
+                            3'd5: begin // move memory data to register
+                                mdr_out <= 1'b1;
+                                reg_sel <= ir_data[11:8];
+                                reg_in <= 1'b1;
+                                microcode_instruction <= 3'd0;
+                            end
+                            endcase
+                        end
+                        else begin // pushr
+                            case(microcode_instruction)
+                            3'd2: begin // move address from register into mar and tmp0
+                                mar_in <= 1'b1;
+                                tmp0_in <= 1'b1;
+                                reg_sel <= ir_data[7:4];
+                                reg_out <= 1'b1;
+                                microcode_instruction <= 3'd3;
+                            end
+                            3'd3: begin // move memory data into address
+                                mdr_in <= 1'b1;
+                                reg_sel <= ir_data[11:8];
+                                reg_out <= 1'b1;
+                                microcode_instruction <= 3'd4;
+                            end
+                            3'd4: begin // load tmp1 with 1
+                                control_out_reg <= 16'b0000_0000_0000_0001;
+                                control_out_enable <= 1'b1;
+                                tmp1_in <= 1'b1;
+                                microcode_instruction <= 3'd5;
+                            end
+                            3'd5: begin // add tmp0 and tmp1 (this adds one to the initial register), then read this new value into mar and the original register
+                                alu_op <= 3'b000;
+                                alu_out <= 1'b1;
+                                reg_sel <= ir_data[7:4];
+                                reg_in <= 1'b1;
+                                mar_in <= 1'b1;
+                                microcode_instruction <= 3'd0;
+                            end
+                            endcase
+                        end
+                    end
+                end
+                4'b0101: begin // addn
+                    case(microcode_instruction)
+                    3'd2: begin // move immediate into tmp0
+                        control_out_reg <= {8'b0, ir_data[7:0]};
+                        control_out_enable <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move register into tmp1
+                        reg_sel <= ir_data[11:8];
+                        reg_out <= 1'b1;
+                        tmp1_in <= 1'b1;
+                        microcode_instruction <= 3'd4;
+                    end
+                    3'd4: begin // add tmp0 and tmp1 and store in register
+                        alu_op <= 3'b000;
+                        alu_out <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_in <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
+                4'b0110: begin // nop, copy, add
+                    // the source code for these is the same
+                    // nop means r0 = r0 + r0
+                    // copy means rx = ry + r0
+                    // add means rx = ry + rz
+                    // r0 is always 0, so we can just use it as a dummy register
+                    case(microcode_instruction)
+                    3'd2: begin // move register z into tmp0
+                        reg_sel <= ir_data[3:0];
+                        reg_out <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move register y into tmp1
+                        reg_sel <= ir_data[7:4];
+                        reg_out <= 1'b1;
+                        tmp1_in <= 1'b1;
+                        microcode_instruction <= 3'd4;
+                    end
+                    3'd4: begin // add tmp0 and tmp1 and store in register x
+                        alu_op <= 3'b000;
+                        alu_out <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_in <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
+                4'b0111: begin // neg, sub
+                    // the source code for these is the same
+                    // neg means rx = 0 - ry
+                    // sub means rx = ry - rz
+                    case(microcode_instruction)
+                    3'd2: begin // move register y into tmp0
+                        reg_sel <= ir_data[7:4];
+                        reg_out <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move register z into tmp1
+                        reg_sel <= ir_data[3:0];
+                        reg_out <= 1'b1;
+                        tmp1_in <= 1'b1;
+                        microcode_instruction <= 3'd4;
+                    end
+                    3'd4: begin // subtract tmp0 and tmp1 and store in register x
+                        alu_op <= 3'b001;
+                        alu_out <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_in <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
+                4'b1000: begin // mul
+                    case(microcode_instruction)
+                    3'd2: begin // move register z into tmp0
+                        reg_sel <= ir_data[3:0];
+                        reg_out <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move register y into tmp1
+                        reg_sel <= ir_data[7:4];
+                        reg_out <= 1'b1;
+                        tmp1_in <= 1'b1;
+                        microcode_instruction <= 3'd4;
+                    end
+                    3'd4: begin // multiply tmp0 and tmp1 and store in register x
+                        alu_op <= 3'b010;
+                        alu_out <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_in <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
+                4'b1001: begin // div
+                    case(microcode_instruction)
+                    3'd2: begin // move register z into tmp0
+                        reg_sel <= ir_data[3:0];
+                        reg_out <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move register y into tmp1
+                        reg_sel <= ir_data[7:4];
+                        reg_out <= 1'b1;
+                        tmp1_in <= 1'b1;
+                        microcode_instruction <= 3'd4;
+                    end
+                    3'd4: begin // divide tmp0 and tmp1 and store in register x
+                        alu_op <= 3'b011;
+                        alu_out <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_in <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
+                4'b1010: begin // mod
+                    case(microcode_instruction)
+                    3'd2: begin // move register z into tmp0
+                        reg_sel <= ir_data[3:0];
+                        reg_out <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move register y into tmp1
+                        reg_sel <= ir_data[7:4];
+                        reg_out <= 1'b1;
+                        tmp1_in <= 1'b1;
+                        microcode_instruction <= 3'd4;
+                    end
+                    3'd4: begin // mod tmp0 and tmp1 and store in register x
+                        alu_op <= 3'b100;
+                        alu_out <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_in <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
+                4'b1011: begin // jumpn, call
+                    if (ir_data[11:8] == 4'b0000) begin// jumpn
+                        control_out_reg <= {8'b0, ir_data[7:0]};
+                        control_out_enable <= 1'b1;
+                        pc_jump <= 1'b1;
+                        microcode_instruction <= 3'd0;
+                    end
+                    else begin // call
+                        case(microcode_instruction)
+                        3'd2: begin // increment pc
+                            pc_increment <= 1'b1;
+                        end
+                        3'd3: begin // move pc into register x
+                            reg_sel <= ir_data[11:8];
+                            reg_in <= 1'b1;
+                            pc_out <= 1'b1;
+                            microcode_instruction <= 3'd4;
+                        end
+                        3'd4: begin // set pc to jump address
+                            control_out_reg <= {8'b0, ir_data[7:0]};
+                            control_out_enable <= 1'b1;
+                            pc_jump <= 1'b1;
+                            microcode_instruction <= 3'd0;
+                        end
+                        endcase
+                    end
+                end
+                4'b11XX: begin // jeqz, jnez, jltz, jgtz
+                    case(microcode_instruction)
+                    3'd2: begin // move register x into tmp0
+                        reg_sel <= ir_data[11:8];
+                        reg_out <= 1'b1;
+                        tmp0_in <= 1'b1;
+                        microcode_instruction <= 3'd3;
+                    end
+                    3'd3: begin // move 0 into tmp1
+                        tmp1_in <= 1'b1;
+                        control_out_reg <= 16'b0;
+                        control_out_enable <= 1'b1;
+                    end
+                    3'd4: begin // compare tmp0 and tmp1
+                        alu_op <= 3'b000;
+                        flags_in <= 1'b1;
+                        microcode_instruction <= 3'd5;
+                    end
+                    3'd5: begin // if zero bit is set, jump
+                        if (ir_data[1:0] == 2'b00 && flags_data[1] == 1'b1 || ir_data[1:0] == 2'b10 && flags_data[1] == 1'b0 || ir_data[1:0] == 2'b10 && flags_data[2:1] == 2'b01 || ir_data[1:0] == 2'b11 && flags_data[2] == 1'b1) begin
+                            control_out_reg <= {8'b0, ir_data[7:0]};
+                            control_out_enable <= 1'b1;
+                            pc_jump <= 1'b1;
+                        end
+                        microcode_instruction <= 3'd0;
+                    end
+                    endcase
+                end
                 endcase
+            end
+        end
     end
 endmodule
