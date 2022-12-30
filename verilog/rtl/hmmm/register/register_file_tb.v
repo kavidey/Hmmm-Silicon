@@ -32,64 +32,75 @@ module register_file_tb();
         clk <= 1'b0;
         reg_select <= 4'd0;
 
-        rst <= 1'b1;
-        #10;
-        rst <= 1'b0;
-        #10;
-
-        ram <= 16'd0;
-        reg_select <= 3'd0;
-        reg_file_in <= 1'b1;
-        #10;
-        reg_file_in <= 1'b0;
-        #10;
-
-        ram <= 16'd1;
+        ram <= 16'b0000000000101010;
         reg_select <= 4'd1;
         reg_file_in <= 1'b1;
         #10;
         reg_file_in <= 1'b0;
+        ram <= 16'b0;
         #10;
-
-        ram <= 16'd14;
-        reg_select <= 4'd14;
-        reg_file_in <= 1'b1;
-        #10;
-        reg_file_in <= 1'b0;
-        #10;
-
-        ram <= 16'd15;
-        reg_select <= 4'd15;
-        reg_file_in <= 1'b1;
-        #10;
-        reg_file_in <= 1'b0;
-        #10;
-
-        reg_select <= 4'd0;
         reg_file_out <= 1'b1;
-        #10;
-        reg_select <= 4'd1;
-        #10;
-        reg_select <= 4'd14;
-        #10;
-        reg_select <= 4'd15;
         #10;
         reg_file_out <= 1'b0;
 
-        rst <= 1'b1;
-        #10;
-        rst <= 1'b0;
-        #10;
+        // rst <= 1'b1;
+        // #10;
+        // rst <= 1'b0;
+        // #10;
 
-        reg_select <= 4'd0;
-        reg_file_out <= 1'b1;
-        #10;
-        reg_select <= 4'd1;
-        #10;
-        reg_select <= 4'd14;
-        #10;
-        reg_select <= 4'd15;
-        #10;
+        // ram <= 16'd0;
+        // reg_select <= 3'd0;
+        // reg_file_in <= 1'b1;
+        // #10;
+        // reg_file_in <= 1'b0;
+        // #10;
+
+        // ram <= 16'd1;
+        // reg_select <= 4'd1;
+        // reg_file_in <= 1'b1;
+        // #10;
+        // reg_file_in <= 1'b0;
+        // #10;
+
+        // ram <= 16'd14;
+        // reg_select <= 4'd14;
+        // reg_file_in <= 1'b1;
+        // #10;
+        // reg_file_in <= 1'b0;
+        // #10;
+
+        // ram <= 16'd15;
+        // reg_select <= 4'd15;
+        // reg_file_in <= 1'b1;
+        // #10;
+        // reg_file_in <= 1'b0;
+        // #10;
+
+        // reg_select <= 4'd0;
+        // reg_file_out <= 1'b1;
+        // #10;
+        // reg_select <= 4'd1;
+        // #10;
+        // reg_select <= 4'd14;
+        // #10;
+        // reg_select <= 4'd15;
+        // #10;
+        // reg_file_out <= 1'b0;
+
+        // rst <= 1'b1;
+        // #10;
+        // rst <= 1'b0;
+        // #10;
+
+        // reg_select <= 4'd0;
+        // reg_file_out <= 1'b1;
+        // #10;
+        // reg_select <= 4'd1;
+        // #10;
+        // reg_select <= 4'd14;
+        // #10;
+        // reg_select <= 4'd15;
+        // #10;
 
         $finish;
     end

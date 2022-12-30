@@ -24,7 +24,7 @@ module hmmm(
     output wire halt
 );
     wire internal_clock = halt ? 1'b0 : clk;
-    wire [15:0] bus = (write || read || pgrm_addr || pgrm_data) ? io : {16{1'bZ}};
+    wire [15:0] bus = (write || read || pgrm_addr || pgrm_data) ? io : 16'bZ;
 
     wire mar_in, mdr_in, mdr_out;
     wire pc_out, pc_jump, pc_increment;

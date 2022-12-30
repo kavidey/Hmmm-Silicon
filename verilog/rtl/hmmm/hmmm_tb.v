@@ -6,7 +6,7 @@ module hmmm_tb();
     wire read, write, halt;
 
     reg [15:0] data = 16'b0;
-    wire [15:0] io = (write || read || pgrm_addr || pgrm_data) ? data : 16'bZ;
+    wire [15:0] io = (read || pgrm_addr || pgrm_data) ? data : 16'bZ;
 
     always begin
         #5;
