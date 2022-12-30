@@ -6,8 +6,8 @@ module control_tb();
 
     wire mar_in, mdr_in, mdr_out;
     wire pc_out, pc_jump, pc_increment;
-    wire tmp0_in, tmp0_out, alu_out, tmp1_in, tmp1_out;
-    wire [2:0] alu_op;
+    wire tmp0_in, tmp0_out, alu_out, tmp1_in, tmp1_out, flags_in;
+    wire [2:0] alu_op, flags_data;
     wire [3:0] reg_sel;
     wire reg_in, reg_out;
     wire ir_in, ir_out;
@@ -40,6 +40,8 @@ module control_tb();
         .alu_op(alu_op),
         .tmp1_in(tmp1_in),
         .tmp1_out(tmp1_out),
+        .flags_in(flags_in),
+        .flags_data(flags_data),
 
         .reg_sel(reg_sel),
         .reg_in(reg_in),

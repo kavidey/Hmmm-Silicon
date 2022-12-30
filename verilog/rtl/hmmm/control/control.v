@@ -2,6 +2,7 @@ module control
 (
     input wire clk,
     input wire rst,
+    input wire writing_program,
 
     // RAM
     output reg mar_in,
@@ -21,7 +22,7 @@ module control
     output reg tmp1_in,
     output reg tmp1_out,
     output reg flags_in,
-    input wire [3:0] flags_data, // [carry, zero, sign]
+    input wire [2:0] flags_data, // [carry, zero, sign]
 
     // Register File
     output reg [3:0] reg_sel,
@@ -50,7 +51,7 @@ module control
 
     assign bus = control_out_enable ? control_out_reg : {16{1'bZ}};
 
-    always @(negedge clk) begin
+    always @(negedge clk or posedge writing_program) begin
         // Control
         control_out_enable <= 1'b0;
 
@@ -90,7 +91,7 @@ module control
         if (rst) begin
             microcode_instruction <= 3'b0;
         end
-        else begin
+        else if (!writing_program) begin
             if (microcode_instruction < 3'd2) begin
                 case(microcode_instruction)
                 3'd0: begin

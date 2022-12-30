@@ -10,7 +10,7 @@ module alu (
     reg signed [16:0] result_with_carry;
     assign carry = result_with_carry[16];
     // TODO: make this output Z when enable is off
-    assign result = result_with_carry[15:0] & enable;
+    assign result = enable ? result_with_carry[15:0] : 16'dZ;
     // assign zero = (result == 0) ? 1'b1 : 1'b0;
     assign zero = ~|result;
     assign sign = result[15];

@@ -8,14 +8,15 @@ module mdr (
     output wire [15:0] ram_in
 );
 
-    reg [15:0] internal_mdr;
+    // reg [15:0] internal_mdr;
 
     assign ram_in = mdr_in ? data : {16{1'bZ}};
-    assign data = mdr_out ? internal_mdr : {16{1'bZ}};
+    // assign data = mdr_out ? internal_mdr : {16{1'bZ}};
+    assign data = mdr_out ? ram_out : {16{1'bZ}};
 
-    always @(posedge clk) begin
-        if (mdr_out)
-            internal_mdr <= ram_out;
-    end
+    // always @(posedge clk) begin
+    //     if (mdr_out)
+    //         internal_mdr <= ram_out;
+    // end
 
 endmodule

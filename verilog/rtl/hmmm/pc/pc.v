@@ -1,19 +1,16 @@
 module pc 
-#(
-    parameter N = 8
-)
 (
     input wire clk,
     input wire rst,
     input wire pc_out,
     input wire jump,
     input wire increment,
-    inout wire [N-1:0] data
+    inout wire [15:0] data
 );
 
-    reg [N-1:0] internal_pc;
+    reg [7:0] internal_pc;
 
-    assign data = pc_out ? internal_pc : {N{1'bZ}};
+    assign data = pc_out ? {8'b0, internal_pc} : {16'bZ};
 
     always @(posedge clk) begin
         if (rst)
