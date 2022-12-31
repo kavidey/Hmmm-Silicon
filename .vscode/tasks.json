@@ -1,0 +1,17 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Make Verilog Module",
+            "type": "shell",
+            "command": "./scripts/environment.sh"
+        },
+        {
+            "label": "Make User Project Wrapper",
+            "type": "shell",
+            "command": "./scripts/environment.sh && make user_project_wrapper"
+        }
+    ]
+}
