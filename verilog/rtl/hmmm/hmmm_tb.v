@@ -37,8 +37,8 @@ module hmmm_tb();
         #10;
         rst <= 1'b0;
 
-        // setn r1 5
-        data <= 16'b0;
+        // 0 setn r1 5
+        data <= 16'd0;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -47,8 +47,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // setn r2 3
-        data <= 16'b1;
+        // 1 setn r2 3
+        data <= 16'd1;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -57,8 +57,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // sub r3 r1 r2
-        data <= 16'b10;
+        // 2 sub r3 r1 r2
+        data <= 16'd2;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -67,8 +67,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // nop
-        data <= 16'b11;
+        // 3 nop
+        data <= 16'd3;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -77,8 +77,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // jgtzn r3 7
-        data <= 16'b100;
+        // 4 jgtzn r3 7
+        data <= 16'd4;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -87,8 +87,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // write r1
-        data <= 16'b101;
+        // 5 write r1
+        data <= 16'd5;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -97,8 +97,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // jumpn 8
-        data <= 16'b110;
+        // 6 jumpn 8
+        data <= 16'd6;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -107,8 +107,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // write r2
-        data <= 16'b111;
+        // 7 write r2
+        data <= 16'd7;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -117,8 +117,8 @@ module hmmm_tb();
         #10;
         pgrm_data <= 1'b0;
 
-        // halt
-        data <= 16'b1000;
+        // 8 halt
+        data <= 16'd8;
         pgrm_addr <= 1'b1;
         #10;
         pgrm_addr <= 1'b0;
@@ -131,7 +131,7 @@ module hmmm_tb();
         #10;
         rst <= 1'b0;
 
-        #200;
+        #400;
 
         $finish;
     end

@@ -59,7 +59,7 @@ module hmmm(
         .tmp1_in(tmp1_in),
         .tmp1_out(tmp1_out),
         .flags_in(flags_in),
-        .flags_data(alu_flags),
+        .flags_data(flags_data),
 
         .reg_sel(reg_sel),
         .reg_in(reg_in),

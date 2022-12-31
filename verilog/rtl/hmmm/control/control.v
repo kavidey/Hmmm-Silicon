@@ -433,7 +433,7 @@ module control
                         endcase
                     end
                 end
-                4'b11XX: begin // jeqz, jnez, jltz, jgtz
+                4'b1100, 4'b1101, 4'b1110, 4'b1111: begin // jeqz, jnez, jltz, jgtz
                     case(microcode_instruction)
                     3'd2: begin // move register x into tmp0
                         reg_sel <= ir_data[11:8];
@@ -445,6 +445,7 @@ module control
                         tmp1_in <= 1'b1;
                         control_out_reg <= 16'b0;
                         control_out_enable <= 1'b1;
+                        microcode_instruction <= 3'd4;
                     end
                     3'd4: begin // compare tmp0 and tmp1
                         alu_op <= 3'b000;
@@ -452,7 +453,7 @@ module control
                         microcode_instruction <= 3'd5;
                     end
                     3'd5: begin // if zero bit is set, jump
-                        if (ir_data[1:0] == 2'b00 && flags_data[1] == 1'b1 || ir_data[1:0] == 2'b10 && flags_data[1] == 1'b0 || ir_data[1:0] == 2'b10 && flags_data[2:1] == 2'b01 || ir_data[1:0] == 2'b11 && flags_data[2] == 1'b1) begin
+                        if (ir_data[13:12] == 2'b00 && flags_data[1] == 1'b1 || ir_data[13:12] == 2'b10 && flags_data[1] == 1'b0 || ir_data[13:12] == 2'b10 && flags_data[2:1] == 2'b01 || ir_data[13:12] == 2'b11 && flags_data[2] == 1'b1) begin
                             control_out_reg <= {8'b0, ir_data[7:0]};
                             control_out_enable <= 1'b1;
                             pc_jump <= 1'b1;

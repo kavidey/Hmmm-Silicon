@@ -16,7 +16,7 @@ module pc
         if (rst)
             internal_pc <= 0;
         else if (jump)
-            internal_pc <= data;
+            internal_pc <= data[7:0];
         else if (increment)
             internal_pc <= internal_pc + 1;
     end

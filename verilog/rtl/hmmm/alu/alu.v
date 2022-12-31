@@ -12,8 +12,8 @@ module alu (
     // TODO: make this output Z when enable is off
     assign result = enable ? result_with_carry[15:0] : 16'dZ;
     // assign zero = (result == 0) ? 1'b1 : 1'b0;
-    assign zero = ~|result;
-    assign sign = result[15];
+    assign zero = ~|result_with_carry[15:0];
+    assign sign = result_with_carry[15];
 
     always @* begin
         case(op) 
