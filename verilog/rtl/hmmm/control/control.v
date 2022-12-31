@@ -266,7 +266,7 @@ module control
                         control_out_reg <= {{8{ir_data[7]}}, ir_data[7:0]};
                         control_out_enable <= 1'b1;
                         tmp0_in <= 1'b1;
-                        microcode_instruction <= 3'd3;
+                        microcode_instruction <= 3'd3;  
                     end
                     3'd3: begin // move register into tmp1
                         reg_sel <= ir_data[11:8];
@@ -385,16 +385,16 @@ module control
                 end
                 4'b1010: begin // mod
                     case(microcode_instruction)
-                    3'd2: begin // move register z into tmp0
+                    3'd2: begin // move register z into tmp1
                         reg_sel <= ir_data[3:0];
                         reg_out <= 1'b1;
-                        tmp0_in <= 1'b1;
+                        tmp1_in <= 1'b1;
                         microcode_instruction <= 3'd3;
                     end
-                    3'd3: begin // move register y into tmp1
+                    3'd3: begin // move register y into tmp0
                         reg_sel <= ir_data[7:4];
                         reg_out <= 1'b1;
-                        tmp1_in <= 1'b1;
+                        tmp0_in <= 1'b1;
                         microcode_instruction <= 3'd4;
                     end
                     3'd4: begin // mod tmp0 and tmp1 and store in register x
@@ -453,7 +453,7 @@ module control
                         microcode_instruction <= 3'd5;
                     end
                     3'd5: begin // if zero bit is set, jump
-                        if (ir_data[13:12] == 2'b00 && flags_data[1] == 1'b1 || ir_data[13:12] == 2'b10 && flags_data[1] == 1'b0 || ir_data[13:12] == 2'b10 && flags_data[2:1] == 2'b01 || ir_data[13:12] == 2'b11 && flags_data[2] == 1'b1) begin
+                        if (ir_data[13:12] == 2'b00 && flags_data[1] == 1'b1 || ir_data[13:12] == 2'b01 && flags_data[1] == 1'b0 || ir_data[13:12] == 2'b10 && flags_data[2:1] == 2'b01 || ir_data[13:12] == 2'b11 && flags_data[2] == 1'b1) begin
                             control_out_reg <= {8'b0, ir_data[7:0]};
                             control_out_enable <= 1'b1;
                             pc_jump <= 1'b1;
