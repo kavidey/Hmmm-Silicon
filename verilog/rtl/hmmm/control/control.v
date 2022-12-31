@@ -263,7 +263,7 @@ module control
                 4'b0101: begin // addn
                     case(microcode_instruction)
                     3'd2: begin // move immediate into tmp0
-                        control_out_reg <= {8'b0, ir_data[7:0]};
+                        control_out_reg <= {{8{ir_data[7]}}, ir_data[7:0]};
                         control_out_enable <= 1'b1;
                         tmp0_in <= 1'b1;
                         microcode_instruction <= 3'd3;
