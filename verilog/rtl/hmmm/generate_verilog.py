@@ -22,3 +22,12 @@ pgrm_addr <= 1'b0;""")
     print("""pgrm_data <= 1'b1;
 #10;
 pgrm_data <= 1'b0;""")
+
+print(f"""data <= 16'd{len(contents)};
+pgrm_addr <= 1'b1;
+#10;
+pgrm_addr <= 1'b0;
+data <= 16'b0000_0000_0000_0000;
+pgrm_data <= 1'b1;
+#10;
+pgrm_data <= 1'b0;""")

@@ -127,8 +127,8 @@ module control
                     end
                     2'b11: begin // jump
                         pc_jump <= 1'b1;
-                        control_out_reg <= {12'b0, ir_data[11:8]};
-                        control_out_enable <= 1'b1;
+                        reg_sel <= ir_data[11:8];
+                        reg_out <= 1'b1;
                     end
                     endcase
                     microcode_instruction <= 3'd0;
@@ -415,16 +415,13 @@ module control
                     end
                     else begin // call
                         case(microcode_instruction)
-                        3'd2: begin // increment pc
-                            pc_increment <= 1'b1;
-                        end
-                        3'd3: begin // move pc into register x
+                        3'd2: begin // move pc into register x
                             reg_sel <= ir_data[11:8];
                             reg_in <= 1'b1;
                             pc_out <= 1'b1;
-                            microcode_instruction <= 3'd4;
+                            microcode_instruction <= 3'd3;
                         end
-                        3'd4: begin // set pc to jump address
+                        3'd3: begin // set pc to jump address
                             control_out_reg <= {8'b0, ir_data[7:0]};
                             control_out_enable <= 1'b1;
                             pc_jump <= 1'b1;
