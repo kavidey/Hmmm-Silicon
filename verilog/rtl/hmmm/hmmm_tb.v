@@ -43,8 +43,8 @@ module hmmm_tb();
         #10;
         pgrm_addr <= 1'b0;
         
-        // setn r1 42
-        data <= 16'b0001_0001_0010_1010;
+        // read r1
+        data <= 16'b0000_0001_0000_0001;
         pgrm_data <= 1'b1;
         #10;
         pgrm_data <= 1'b0;
@@ -76,6 +76,8 @@ module hmmm_tb();
         rst <= 1'b1;
         #10;
         rst <= 1'b0;
+
+        data <= 16'b0000_0000_0000_0101;
 
         #100;
 
