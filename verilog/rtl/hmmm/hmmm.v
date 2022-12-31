@@ -163,8 +163,8 @@ module hmmm(
         .clk(internal_clock),
         .rst(rst),
 
-        .register_in(tmp0_in),
-        .register_out(tmp0_out),
+        .register_in(tmp1_in),
+        .register_out(tmp1_out),
 
         .data(bus),
         .register_data(tmp1_data)
