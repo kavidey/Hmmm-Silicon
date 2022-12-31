@@ -20,7 +20,7 @@ module hmmm_tb();
         .pgrm_data(pgrm_data),
         .read(read),
         .write(write),
-        .io(io),
+        .bus(io),
         .halt(halt)
     );
 

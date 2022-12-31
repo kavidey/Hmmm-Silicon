@@ -18,13 +18,16 @@ module hmmm(
     input wire rst,
     input wire pgrm_addr,
     input wire pgrm_data,
-    inout wire [15:0] io,
+    inout wire [15:0] bus,
     output wire write,
     output wire read,
     output wire halt
 );
     wire internal_clock = halt ? 1'b0 : clk;
-    wire [15:0] bus = (write || read || pgrm_addr || pgrm_data) ? io : 16'bZ;
+    // wire [15:0] bus = (write || read || pgrm_addr || pgrm_data) ? io : 16'bZ;
+    // wire [15:0] bus;
+    // assign io = (read || pgrm_addr || pgrm_data) ? bus : 16'bZ;
+    // assign bus = write ? io : 16'bZ;
 
     wire mar_in, mdr_in, mdr_out;
     wire pc_out, pc_jump, pc_increment;
