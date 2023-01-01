@@ -1,19 +1,24 @@
-`include "alu/alu.v"
+// `include "alu/alu.v"
 
-`include "control/control.v"
+// `include "control/control.v"
 
-`include "ir/ir.v"
+// `include "ir/ir.v"
 
-`include "pc/pc.v"
+// `include "pc/pc.v"
 
-`include "ram/mar.v"
-`include "ram/ram.v"
-`include "ram/mdr.v"
+// `include "ram/mar.v"
+// `include "ram/ram.v"
+// `include "ram/mdr.v"
 
-`include "register/register.v"
-`include "register/register_file.v"
+// `include "register/register.v"
+// `include "register/register_file.v"
 
 module hmmm(
+`ifdef USE_POWER_PINS
+    inout vccd1,	// User area 1 1.8V power
+	inout vssd1,	// User area 1 digital ground
+`endif
+
     input wire clk,
     input wire rst,
     input wire pgrm_addr,

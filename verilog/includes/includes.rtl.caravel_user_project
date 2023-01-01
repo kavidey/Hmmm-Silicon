@@ -1,5 +1,13 @@
 # Caravel user project includes
 -v $(USER_PROJECT_VERILOG)/rtl/user_project_wrapper.v	     
--v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
-
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/hmmm.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/alu/alu.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/control/control.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/ir/ir.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/pc/pc.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/ram/mar.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/ram/ram.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/ram/mdr.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/register/register.v
+-v $(USER_PROJECT_VERILOG)/rtl/hmmm/register/register_file.v
  
