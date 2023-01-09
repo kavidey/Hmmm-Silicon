@@ -6,7 +6,7 @@ module hmmm_tb();
     wire read, write, halt;
 
     reg [15:0] data = 16'b0;
-    wire [15:0] io = (read || pgrm_addr || pgrm_data) ? data : 16'bZ;
+    wire [15:0] out;
 
     always begin
         #5;
@@ -20,7 +20,8 @@ module hmmm_tb();
         .pgrm_data(pgrm_data),
         .read(read),
         .write(write),
-        .bus(io),
+        .in(data),
+        .out(out),
         .halt(halt)
     );
 
@@ -37,6 +38,7 @@ module hmmm_tb();
         #10;
         rst <= 1'b0;
 
+        // Quadruple the input number
         data <= 16'd0;
         pgrm_addr <= 1'b1;
         #10;

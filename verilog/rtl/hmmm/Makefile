@@ -5,7 +5,7 @@
 # <ihsan@kehribar.me> - 2016
 #------------------------------------------------------------------------------
 TESTBENCH = hmmm_tb
-SRCS	  = hmmm.v
+SRCS	  = hmmm.v alu/alu.v control/control.v ir/ir.v pc/pc.v ram/mar.v ram/ram.v ram/mdr.v register/register.v register/register_file.v
 
 #------------------------------------------------------------------------------
 # You should't be changing what is below

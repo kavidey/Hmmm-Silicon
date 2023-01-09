@@ -13,10 +13,8 @@ module ram
     assign data_out = memory[address];
 
     always @(posedge clk) begin
-        if (rst)
-            memory[address] <= 16'b0;
-        else if (write)
-            memory[address] <= data_in;
+        if (rst) memory[address] <= 16'b0;
+        else if (write) memory[address] <= data_in;
     end
 
 endmodule

@@ -1,18 +1,3 @@
-// `include "alu/alu.v"
-
-// `include "control/control.v"
-
-// `include "ir/ir.v"
-
-// `include "pc/pc.v"
-
-// `include "ram/mar.v"
-// `include "ram/ram.v"
-// `include "ram/mdr.v"
-
-// `include "register/register.v"
-// `include "register/register_file.v"
-
 module hmmm(
 `ifdef USE_POWER_PINS
     inout vccd1,	// User area 1 1.8V power
@@ -23,16 +8,19 @@ module hmmm(
     input wire rst,
     input wire pgrm_addr,
     input wire pgrm_data,
-    inout wire [15:0] bus,
+    input wire [15:0] in,
+    output wire [15:0] out,
     output wire write,
     output wire read,
     output wire halt
 );
     wire internal_clock = halt ? 1'b0 : clk;
-    // wire [15:0] bus = (write || read || pgrm_addr || pgrm_data) ? io : 16'bZ;
-    // wire [15:0] bus;
-    // assign io = (read || pgrm_addr || pgrm_data) ? bus : 16'bZ;
-    // assign bus = write ? io : 16'bZ;
+
+    wire [15:0] bus = (read || pgrm_addr || pgrm_data) ? in : 16'bZ;
+    // For debugging its useful to always be able to see what is on the bus
+    // The "write" signal is used to indicate when the computer is outputting a value
+    // assign out = write ? bus : 16'bZ;
+    assign out = bus;
 
     wire mar_in, mdr_in, mdr_out;
     wire pc_out, pc_jump, pc_increment;

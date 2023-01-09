@@ -1,7 +1,10 @@
 {
     "DESIGN_NAME": "hmmm",
     "DESIGN_IS_CORE": 0,
-    "VERILOG_FILES": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/hmmm/hmmm.v"],
+    "VERILOG_FILES": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/hmmm/hmmm.v"
+    , "dir::../../verilog/rtl/hmmm/alu/alu.v", "dir::../../verilog/rtl/hmmm/control/control.v", "dir::../../verilog/rtl/hmmm/ir/ir.v"
+    , "dir::../../verilog/rtl/hmmm/pc/pc.v", "dir::../../verilog/rtl/hmmm/ram/mar.v", "dir::../../verilog/rtl/hmmm/ram/ram.v"
+    , "dir::../../verilog/rtl/hmmm/ram/mdr.v", "dir::../../verilog/rtl/hmmm/register/register.v", "dir::../../verilog/rtl/hmmm/register/register_file.v"],
     "CLOCK_PERIOD": 10,
     "CLOCK_PORT": "wb_clk_i",
     "CLOCK_NET": "counter.clk",
