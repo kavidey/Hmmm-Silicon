@@ -51,7 +51,7 @@ module control
 
     assign bus = control_out_enable ? control_out_reg : {16{1'bZ}};
 
-    always @(negedge clk or posedge writing_program) begin
+    always @(negedge clk) begin
         // Control
         control_out_enable <= 1'b0;
 
