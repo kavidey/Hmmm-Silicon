@@ -82,6 +82,25 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
+wire pgrm_addr, pgrm_data;
+assign io_in[8] = pgrm_addr;
+assign io_in[9] = pgrm_data;
+assign io_oeb[9:8] = 2'b11; // pgrm_addr, pgrm_data are inputs
+
+
+wire read, write, halt;
+assign read = io_in[10];
+assign write = io_in[11];
+assign halt = io_in[12];
+assign io_oeb[12:10] = 3'b111; // read, write, halt are outputs
+
+wire [15:0] in;
+wire [15:0] out;
+wire [15:0] oeb;
+assign io_in[28:13] = in;
+assign io_out[28:13] = out;
+assign io_oeb[28:13] = oeb; // 16-bit I/O
+
 hmmm hmmm (
 `ifdef USE_POWER_PINS
 	.vccd1(vccd1),	// User area 1 1.8V power
@@ -91,12 +110,15 @@ hmmm hmmm (
     .clk(wb_clk_i),
     .rst(wb_rst_i),
 
-    .pgrm_addr(analog_io[0]),
-    .pgrm_data(analog_io[1]),
-    .bus(analog_io[17:2]),
-    .read(analog_io[18]),
-    .write(analog_io[19]),
-    .halt(analog_io[20])
+    .pgrm_addr(pgrm_addr),
+    .pgrm_data(pgrm_data),
+    .read(read),
+    .write(write),
+    .halt(halt),
+
+    .in(in),
+    .out(out),
+    .oeb(oeb)
 );
 
 endmodule

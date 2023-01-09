@@ -6,6 +6,7 @@ module hmmm_tb();
     wire read, write, halt;
 
     reg [15:0] data = 16'b0;
+    wire [15:0] oeb;
     wire [15:0] out;
 
     always begin
@@ -22,6 +23,7 @@ module hmmm_tb();
         .write(write),
         .in(data),
         .out(out),
+        .oeb(oeb),
         .halt(halt)
     );
 

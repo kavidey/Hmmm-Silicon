@@ -26,9 +26,9 @@ module hmmm_tb;
 
 	wire gpio;
 	wire [37:0] mprj_io;
-	wire [7:0] mprj_io_0;
+	wire [20:0] mprj_io_0;
 
-	assign mprj_io_0 = mprj_io[27:8];
+	assign mprj_io_0 = mprj_io[28:8];
 	// assign mprj_io_0 = {mprj_io[8:4],mprj_io[2:0]};
 
 	assign mprj_io[3] = (CSB == 1'b1) ? 1'b1 : 1'bz;
@@ -207,7 +207,7 @@ module hmmm_tb;
 	end
 
 	always @(mprj_io) begin
-		#1 $display("MPRJ-IO state = %b ", mprj_io[7:0]);
+		#1 $display("MPRJ-IO state = %b ", mprj_io[28:8]);
 	end
 
 	wire flash_csb;

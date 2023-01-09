@@ -12,7 +12,8 @@ module hmmm(
     output wire [15:0] out,
     output wire write,
     output wire read,
-    output wire halt
+    output wire halt,
+    output wire [15:0] oeb
 );
     wire internal_clock = halt ? 1'b0 : clk;
 
@@ -21,6 +22,7 @@ module hmmm(
     // The "write" signal is used to indicate when the computer is outputting a value
     // assign out = write ? bus : 16'bZ;
     assign out = bus;
+    assign oeb = {16{write}};
 
     wire mar_in, mdr_in, mdr_out;
     wire pc_out, pc_jump, pc_increment;
