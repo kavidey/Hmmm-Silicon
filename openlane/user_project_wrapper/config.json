@@ -3,12 +3,15 @@
     "VERILOG_FILES": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/user_project_wrapper.v"],
     "CLOCK_PERIOD": 10,
     "CLOCK_PORT": "user_clock2",
-    "CLOCK_NET": "mprj.clk",
-    "FP_PDN_MACRO_HOOKS": "mprj vccd1 vssd1 vccd1 vssd1",
+    "CLOCK_NET": "hmmm.clk",
+    "FP_PDN_MACRO_HOOKS": "hmmm vccd1 vssd1 vccd1 vssd1",
     "MACRO_PLACEMENT_CFG": "dir::macro.cfg",
-    "VERILOG_FILES_BLACKBOX": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/user_proj_example.v"],
-    "EXTRA_LEFS": "dir::../../lef/user_proj_example.lef",
-    "EXTRA_GDS_FILES": "dir::../../gds/user_proj_example.gds",
+    "VERILOG_FILES_BLACKBOX": ["dir::../../verilog/rtl/defines.v", "dir::../../verilog/rtl/hmmm/hmmm.v"
+    , "dir::../../verilog/rtl/hmmm/alu/alu.v", "dir::../../verilog/rtl/hmmm/control/control.v", "dir::../../verilog/rtl/hmmm/ir/ir.v"
+    , "dir::../../verilog/rtl/hmmm/pc/pc.v", "dir::../../verilog/rtl/hmmm/ram/mar.v", "dir::../../verilog/rtl/hmmm/ram/ram.v"
+    , "dir::../../verilog/rtl/hmmm/ram/mdr.v", "dir::../../verilog/rtl/hmmm/register/register.v", "dir::../../verilog/rtl/hmmm/register/register_file.v"],
+    "EXTRA_LEFS": "dir::../../lef/hmmm.lef",
+    "EXTRA_GDS_FILES": "dir::../../gds/hmmm.gds",
     "FP_PDN_CHECK_NODES": 0,
     "SYNTH_ELABORATE_ONLY": 1,
     "PL_RANDOM_GLB_PLACEMENT": 1,
