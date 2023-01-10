@@ -82,8 +82,12 @@ module user_project_wrapper #(
 /* User project is instantiated  here   */
 /*--------------------------------------*/
 
-assign io_oeb[9:8] = 2'b11; // pgrm_addr, pgrm_data are inputs
-assign io_oeb[12:10] = 3'b111; // read, write, halt are outputs
+assign io_oeb[8] = 1'b1; // pgrm_addr is an input
+assign io_oeb[9] = 1'b1; // pgrm_data is an input
+
+assign io_oeb[10] = 1'b0; // read is an output
+assign io_oeb[11] = 1'b0; // write is an output
+assign io_oeb[12] = 1'b0; // halt is an output
 // io_oeb[28:13]: IO handeled by Hmmm
 
 hmmm hmmm (
@@ -97,9 +101,9 @@ hmmm hmmm (
 
     .pgrm_addr(io_in[8]),
     .pgrm_data(io_in[9]),
-    .read(io_in[10]),
-    .write(io_in[11]),
-    .halt(io_in[12]),
+    .read(io_out[10]),
+    .write(io_out[11]),
+    .halt(io_out[12]),
 
     .in(io_in[28:13]),
     .out(io_out[28:13]),

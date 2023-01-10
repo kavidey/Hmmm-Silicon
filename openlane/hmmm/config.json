@@ -15,6 +15,8 @@
     "VDD_NETS": ["vccd1"],
     "GND_NETS": ["vssd1"],
     "DIODE_INSERTION_STRATEGY": 4,
+    "PL_RESIZER_MAX_SLEW_MARGIN": 1.0,
+    "GLB_RESIZER_MAX_SLEW_MARGIN": 1.0,
     "RUN_CVC": 1,
     "pdk::sky130*": {
         "FP_CORE_UTIL": 45,
