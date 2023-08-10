@@ -6,7 +6,12 @@
 *.lst
 *.vcd
 *.gtkw
+/env
+/venv
+/caravel
+/dependencies
+/mgmt_core_wrapper
+/logs
 
-dependencies
-caravel
-mgmt_core_wrapper
+.DS_Store
+.vscode

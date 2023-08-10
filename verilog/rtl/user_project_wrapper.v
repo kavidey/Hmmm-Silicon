@@ -97,7 +97,7 @@ hmmm hmmm (
 `endif
 
     .clk(wb_clk_i),
-    .rst(wb_rst_i),
+    .rst(wb_clk_i),
 
     .pgrm_addr(io_in[8]),
     .pgrm_data(io_in[9]),
@@ -110,6 +110,6 @@ hmmm hmmm (
     .oeb(io_oeb[28:13])
 );
 
-endmodule
+endmodule	// user_project_wrapper
 
 `default_nettype wire

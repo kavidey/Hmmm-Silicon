@@ -1,0 +1,9 @@
+CARAVEL_ROOT: /Users/kavidey/github/Hmmm-Silicon/caravel
+MCW_ROOT: /Users/kavidey/github/Hmmm-Silicon/mgmt_core_wrapper
+PDK: sky130A
+PDK_ROOT: /Users/kavidey/github/Hmmm-Silicon/dependencies/pdks
+USER_PROJECT_ROOT: /Users/kavidey/github/Hmmm-Silicon
+caravan: false
+clk: 25
+emailto:
+- null
