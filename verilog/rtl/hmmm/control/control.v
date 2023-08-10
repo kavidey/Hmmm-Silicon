@@ -154,7 +154,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b0011: begin // storen
@@ -171,7 +171,7 @@ module control
                         reg_out <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b0100: begin // loadr, storer, popr, pushr
@@ -196,7 +196,7 @@ module control
 
                             microcode_instruction <= 3'd0;
                         end
-                        default: $stop;
+                        default: ;
                         endcase
                     end
                     else begin// pushr, popr
@@ -228,7 +228,7 @@ module control
                                 reg_in <= 1'b1;
                                 microcode_instruction <= 3'd0;
                             end
-                            default: $stop;
+                            default: ;
                             endcase
                         end
                         else begin // pushr
@@ -260,7 +260,7 @@ module control
                                 mar_in <= 1'b1;
                                 microcode_instruction <= 3'd0;
                             end
-                            default: $stop;
+                            default: ;
                             endcase
                         end
                     end
@@ -286,7 +286,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b0110: begin // nop, copy, add
@@ -315,7 +315,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b0111: begin // neg, sub
@@ -342,7 +342,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b1000: begin // mul
@@ -366,7 +366,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b1001: begin // div
@@ -390,7 +390,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b1010: begin // mod
@@ -414,7 +414,7 @@ module control
                         reg_in <= 1'b1;
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 4'b1011: begin // jumpn, call
@@ -438,7 +438,7 @@ module control
                             pc_jump <= 1'b1;
                             microcode_instruction <= 3'd0;
                         end
-                        default: $stop;
+                        default: ;
                         endcase
                     end
                 end
@@ -469,7 +469,7 @@ module control
                         end
                         microcode_instruction <= 3'd0;
                     end
-                    default: $stop;
+                    default: ;
                     endcase
                 end
                 endcase
