@@ -6,8 +6,8 @@
     , "dir::../../verilog/rtl/hmmm/pc/pc.v", "dir::../../verilog/rtl/hmmm/ram/mar.v", "dir::../../verilog/rtl/hmmm/ram/ram.v"
     , "dir::../../verilog/rtl/hmmm/ram/mdr.v", "dir::../../verilog/rtl/hmmm/register/register.v", "dir::../../verilog/rtl/hmmm/register/register_file.v"],
     "CLOCK_PERIOD": 25,
-    "CLOCK_PORT": "wb_clk_i",
-    "CLOCK_NET": "counter.clk",
+    "CLOCK_PORT": "clk",
+    "CLOCK_NET": "clk",
     "FP_SIZING": "absolute",
     "DIE_AREA": "0 0 2800 1760",
     "FP_PIN_ORDER_CFG": "dir::pin_order.cfg",
